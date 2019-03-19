@@ -1,0 +1,51 @@
+diff -r 33a2e93c8bd3 -r 7be35c897ef0 fipvlan.c
+--- a/fipvlan.c	Fri Jan 22 09:27:30 2016 +0000
++++ b/fipvlan.c	Fri Jan 22 09:27:30 2016 +0000
+@@ -979,7 +979,7 @@
+ 		exit(1);
+ 	}
+ 
+-	ns = rtnl_socket();
++	ns = rtnl_socket(RTMGRP_LINK);
+ 	if (ns < 0) {
+ 		rc = ns;
+ 		goto ns_err;
+diff -r 33a2e93c8bd3 -r 7be35c897ef0 include/rtnetlink.h
+--- a/include/rtnetlink.h	Fri Jan 22 09:27:30 2016 +0000
++++ b/include/rtnetlink.h	Fri Jan 22 09:27:30 2016 +0000
+@@ -20,7 +20,7 @@
+ #ifndef _RTNETLINK_
+ #define _RTNETLINK_
+ 
+-int rtnl_socket(void);
++int rtnl_socket(unsigned int group);
+ typedef int rtnl_handler(struct nlmsghdr *nh, void *arg);
+ int rtnl_recv(int s, rtnl_handler *fn, void *arg);
+ ssize_t send_getlink_dump(int s);
+diff -r 33a2e93c8bd3 -r 7be35c897ef0 lib/rtnetlink.c
+--- a/lib/rtnetlink.c	Fri Jan 22 09:27:30 2016 +0000
++++ b/lib/rtnetlink.c	Fri Jan 22 09:27:30 2016 +0000
+@@ -52,11 +52,11 @@
+ /**
+  * rtnl_socket - create and bind a routing netlink socket
+  */
+-int rtnl_socket(void)
++int rtnl_socket(unsigned int groups)
+ {
+ 	struct sockaddr_nl sa = {
+ 		.nl_family = AF_NETLINK,
+-		.nl_groups = RTMGRP_LINK,
++		.nl_groups = groups,
+ 	};
+ 	int s;
+ 	int rc;
+@@ -507,7 +507,7 @@
+ 	add_rtattr(nh, DCB_ATTR_IFNAME, (void *)ifname, strlen(ifname) + 1);
+ 	add_rtattr(nh, DCB_ATTR_PERM_HWADDR, NULL, 0);
+ 
+-	s = rtnl_socket();
++	s = rtnl_socket(0);
+ 	if (s < 0) {
+ 		RTNL_LOG_ERRNO("failed to create the socket");
+ 		return s;
+
