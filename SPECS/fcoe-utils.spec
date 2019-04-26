@@ -11,16 +11,21 @@ Group:              Applications/System
 License:            GPLv2
 URL:                http://www.open-fcoe.org
 # git://open-fcoe.org/fcoe/fcoe-utils.git
-Source0:            %{name}-%{version}.tar.gz
-Source1:            quickstart.txt
-Source2:            fcoe.service
-Source3:            fcoe.config
+
+Source0: SOURCES/fcoe-utils/fcoe-utils-1.0.30.tar.gz
+Source1: SOURCES/fcoe-utils/quickstart.txt
+Source2: SOURCES/fcoe-utils/fcoe.service
+Source3: SOURCES/fcoe-utils/fcoe.config
+Patch1: SOURCES/fcoe-utils/fcoe-utils-v1.0.30-1-fcoemon-Rework-daemonizing-and-error-handling.patch
+Patch2: SOURCES/fcoe-utils/fcoe-utils-v1.0.30-2-fcoemon-fix-IEEE-state-machine.patch
+Patch3: SOURCES/fcoe-utils/fcoe-utils-v1.0.30-3-sanmac-isn-t-required.patch
+Patch4: SOURCES/fcoe-utils/fcoe-utils-v1.0.30-fcoeadm-fix-display-when-some-netdevs-don-t-have-ser.patch
+Patch5: SOURCES/fcoe-utils/noapply-rtnl-socket-with-no-mcast-grp-sanmac.patch
+
+
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/fcoe-utils/archive?at=1.0.0&format=tar#/fcoe-utils.patches.tar) = 6be26b45867acd9aaeaf8e5ccaaa668bd8610c14
+
 ExcludeArch:        ppc s390
-Patch1:             fcoe-utils-v1.0.30-1-fcoemon-Rework-daemonizing-and-error-handling.patch
-Patch2:             fcoe-utils-v1.0.30-2-fcoemon-fix-IEEE-state-machine.patch
-Patch3:             fcoe-utils-v1.0.30-3-sanmac-isn-t-required.patch
-Patch4:             fcoe-utils-v1.0.30-fcoeadm-fix-display-when-some-netdevs-don-t-have-ser.patch
-Patch5:             noapply-rtnl-socket-with-no-mcast-grp-sanmac.patch
 BuildRequires:      autoconf
 BuildRequires:      automake
 BuildRequires:      libhbaapi-devel >= 2.2.9-6
