@@ -5,7 +5,7 @@
 
 Name:               fcoe-utils
 Version:            1.0.30
-Release:            3.git%{checkout}%{?dist}.xs8
+Release:            3.git%{checkout}%{?dist}
 Summary:            Fibre Channel over Ethernet utilities
 Group:              Applications/System
 License:            GPLv2
